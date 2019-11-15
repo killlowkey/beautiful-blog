@@ -13,6 +13,9 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum CustomExceptionEnum {
 
+    /**
+     *
+     */
     NOT_FOUND(404, "未找到");
 
     private Integer code;

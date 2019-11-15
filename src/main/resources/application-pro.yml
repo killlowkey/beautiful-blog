@@ -27,5 +27,5 @@ logging:
     root: warn
     com.predicated.blog: info
   file:
-    path: log/blog-pro
+    name: log/blog-pro.log
 

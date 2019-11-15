@@ -20,4 +20,4 @@ logging:
     root: info
     com.predicated.blog: debug
   file:
-    path: log/blog-dev
+    name: log/blog-dev.log
