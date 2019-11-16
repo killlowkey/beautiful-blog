@@ -18,9 +18,11 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Ray
@@ -110,4 +112,34 @@ public class BlogServiceImpl implements BlogService {
         blogRepository.updateViews(id);
         return b;
     }
+
+    @Override
+    public Long countBlog() {
+        return blogRepository.count();
+    }
+
+    @Override
+    public Map<String, List<Blog>> archiveBlog() {
+        List<String> years = blogRepository.findGroupYear();
+        Map<String, List<Blog>> map = new HashMap<>();
+        for (String year : years) {
+            map.put(year, blogRepository.findByYear(year));
+        }
+        return map;
+    }
+
+    @Override
+    public Page<Blog> listBlog(String query, Pageable pageable) {
+        return blogRepository.findByQuery(query,pageable);
+    }
+
+    @Override
+    public Page<Blog> listBlog(Long tagId, Pageable pageable) {
+        return blogRepository.findAll((Specification<Blog>) (root, cq, cb) -> {
+            Join join = root.join("tags");
+            return cb.equal(join.get("id"),tagId);
+        },pageable);
+    }
+
+
 }

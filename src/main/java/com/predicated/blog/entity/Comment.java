@@ -27,7 +27,7 @@ public class Comment extends BaseEntity{
     /**
      * 昵称
      */
-    private String nickName;
+    private String nickname;
 
     /**
      * 邮箱
@@ -42,7 +42,7 @@ public class Comment extends BaseEntity{
     /**
      * 头像
      */
-    private String avatar;
+    private String avatar = "/images/elliot.jpg";
 
     /**
      * 对应的blog，多个评论对应一个blog
@@ -61,4 +61,6 @@ public class Comment extends BaseEntity{
      */
     @ManyToOne
     private Comment parentComment;
+
+    private boolean adminComment;
 }

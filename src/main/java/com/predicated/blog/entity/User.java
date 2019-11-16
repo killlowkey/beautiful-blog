@@ -48,7 +48,7 @@ public class User extends BaseEntity{
     private String avatar;
 
     /**
-     * 用户类型
+     * 用户类型 1为管理员 0为普通用户
      */
     private Integer type;
 
