@@ -1,7 +1,6 @@
 package com.predicated.blog.entity;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -45,7 +44,7 @@ public class Blog extends BaseEntity{
     /**
      * 浏览次数
      */
-    private Integer views;
+    private Integer views = 0;
 
     /**
      * 赞赏功能
@@ -98,4 +97,30 @@ public class Blog extends BaseEntity{
      */
     private String description;
 
+
+    public void init() {
+        this.tagIds = tagsToIds(this.getTags());
+    }
+
+    private String tagsToIds(List<Tag> tags) {
+        if (!tags.isEmpty()) {
+            StringBuilder sb = new StringBuilder();
+            boolean flag = false;
+            for (Tag tag : tags) {
+                if (flag) {
+                    sb.append(",");
+                } else {
+                    flag = true;
+                }
+                sb.append(tag.getId());
+            }
+            return sb.toString();
+        } else{
+            return tagIds;
+        }
+    }
+
+    public Blog(String flag) {
+        this.flag = flag;
+    }
 }

@@ -56,11 +56,27 @@ public class BlogController {
     @GetMapping("/blogs/input")
     public String input(Model model) {
 
-        model.addAttribute("blog", new Blog());
-        model.addAttribute("types", typeService.listType());
-        model.addAttribute("tags", tagService.listTag());
+        setTypeAndTag(model);
+        model.addAttribute("blog", new Blog("原创"));
 
         return "admin/blogs-input";
+    }
+
+    @GetMapping("/blogs/{id}/input")
+    public String editInput(@PathVariable Long id, Model model) {
+
+        Blog blog = blogService.getBlog(id);
+        blog.init();
+
+        model.addAttribute("blog", blog);
+        setTypeAndTag(model);
+
+        return "admin/blogs-input";
+    }
+
+    private void setTypeAndTag(Model model) {
+        model.addAttribute("tags", tagService.listTag());
+        model.addAttribute("types", typeService.listType());
     }
 
     @PostMapping("/blogs")
@@ -81,17 +97,12 @@ public class BlogController {
         return "redirect:/admin/blogs";
     }
 
-    @GetMapping("/blogs/{id}/input")
-    public String update(@PathVariable Long id, RedirectAttributes attributes) {
-        Blog blog = blogService.getBlog(id);
-        if (blog == null) {
-            attributes.addFlashAttribute("message", "编辑失败，博客不存在");
 
-        } else {
-            attributes.addAttribute("blog", new Blog());
-        }
-
-        return "redirect:/admin/blogs/input";
-
+    @GetMapping("/blogs/{id}/delete")
+    public String delete(@PathVariable Long id, RedirectAttributes attributes) {
+        blogService.deleteBlog(id);
+        attributes.addFlashAttribute("message", "删除成功");
+        return "redirect:/admin/blogs";
     }
+
 }

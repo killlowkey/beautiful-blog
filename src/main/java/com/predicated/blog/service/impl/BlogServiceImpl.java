@@ -60,7 +60,6 @@ public class BlogServiceImpl implements BlogService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Blog saveBlog(Blog blog) {
-        blog.setViews(0);
         return blogRepository.save(blog);
     }
 
