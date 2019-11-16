@@ -39,7 +39,7 @@ public class Blog extends BaseEntity{
     /**
      * 博客标记：原创、转载、翻译
      */
-    private String flag;
+    private String flag = "原创";
 
     /**
      * 浏览次数
@@ -120,7 +120,4 @@ public class Blog extends BaseEntity{
         }
     }
 
-    public Blog(String flag) {
-        this.flag = flag;
-    }
 }

@@ -1,9 +1,12 @@
 package com.predicated.blog.repository;
 
 import com.predicated.blog.entity.Tag;
-import com.predicated.blog.entity.Type;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
+
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -12,4 +15,7 @@ import java.util.Optional;
  */
 public interface TagRepository extends JpaRepository<Tag, Long> {
     Optional<Tag> findByName(String name);
+
+    @Query("select t from Tag t")
+    List<Tag> findTop(Pageable pageable);
 }

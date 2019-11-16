@@ -1,19 +1,18 @@
 package com.predicated.blog.service.impl;
 
 import com.predicated.blog.entity.Tag;
+import com.predicated.blog.entity.Type;
 import com.predicated.blog.exception.CustomException;
 import com.predicated.blog.exception.CustomExceptionEnum;
 import com.predicated.blog.repository.TagRepository;
 import com.predicated.blog.service.TagService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -92,6 +91,14 @@ public class TagServiceImpl implements TagService {
     @Override
     public void deleteTag(Long id) {
         tagRepository.deleteById(id);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public List<Tag> listTagTop(Integer size) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "blogs.size");
+        Pageable pageable = PageRequest.of(0, size, sort);
+        return tagRepository.findTop(pageable);
     }
 
 

@@ -57,7 +57,7 @@ public class BlogController {
     public String input(Model model) {
 
         setTypeAndTag(model);
-        model.addAttribute("blog", new Blog("原创"));
+        model.addAttribute("blog", new Blog());
 
         return "admin/blogs-input";
     }

@@ -1,9 +1,16 @@
 package com.predicated.blog.controller;
 
-import com.predicated.blog.annotation.Log;
+import com.predicated.blog.service.BlogService;
+import com.predicated.blog.service.TagService;
+import com.predicated.blog.service.TypeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.servlet.ModelAndView;
+
 
 /**
  * @author Ray
@@ -12,43 +19,27 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class IndexController {
 
+    @Autowired
+    private BlogService blogService;
+
+    @Autowired
+    private TypeService typeService;
+
+    @Autowired
+    private TagService tagService;
+
+
     @GetMapping({"/", "/index"})
-    @Log("访问主页")
-    public ModelAndView index() {
-        System.out.println(1/0);
-        ModelAndView mv = new ModelAndView();
-        mv.setViewName("index");
+    public String blogs(@PageableDefault(size = 10, sort = {"updateTime"}, direction = Sort.Direction.DESC) Pageable pageable,
+                        Model model) {
 
-        return mv;
-    }
+        model.addAttribute("page", blogService.listBlog(pageable));
+        model.addAttribute("types", typeService.listTypeTop(6));
+        model.addAttribute("tags", tagService.listTagTop(10));
+        model.addAttribute("recommendBlogs", blogService.listRecommendBlogTop(8));
 
-    @GetMapping("/blog")
-    @Log("访问博客")
-    public ModelAndView blog() {
-        ModelAndView mv = new ModelAndView();
-        mv.setViewName("blog");
 
-        return mv;
-    }
-
-    @GetMapping("/about")
-    public String about() {
-        return "about";
-    }
-
-    @GetMapping("/tags")
-    public String tags() {
-        return "tags";
-    }
-
-    @GetMapping("/types")
-    public String types() {
-        return "types";
-    }
-
-    @GetMapping("/archives")
-    public String archives() {
-        return "archives";
+        return "index";
     }
 }
 
