@@ -1,5 +1,6 @@
 package com.predicated.blog.controller;
 
+import com.predicated.blog.entity.Blog;
 import com.predicated.blog.service.BlogService;
 import com.predicated.blog.service.TagService;
 import com.predicated.blog.service.TypeService;
@@ -10,6 +11,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 
 /**
@@ -40,6 +42,13 @@ public class IndexController {
 
 
         return "index";
+    }
+
+
+    @GetMapping("/blog/{id}")
+    public String blog(@PathVariable Long id, Model model) {
+        model.addAttribute("blog", blogService.getAndConvert(id));
+        return "blog";
     }
 }
 

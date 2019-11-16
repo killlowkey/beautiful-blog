@@ -6,6 +6,7 @@ import com.predicated.blog.exception.CustomException;
 import com.predicated.blog.exception.CustomExceptionEnum;
 import com.predicated.blog.repository.BlogRepository;
 import com.predicated.blog.service.BlogService;
+import com.predicated.blog.util.MarkdownUtils;
 import com.predicated.blog.vo.BlogQuery;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,5 +92,22 @@ public class BlogServiceImpl implements BlogService {
         Sort sort = Sort.by(Sort.Direction.DESC, "updateTime");
         Pageable pageable = PageRequest.of(0, size, sort);
         return blogRepository.findTop(pageable);
+    }
+
+    @Override
+    public Blog getAndConvert(Long id) {
+        Blog blog = blogRepository.getOne(id);
+        if (blog == null) {
+            throw new CustomException(CustomExceptionEnum.BLOG_NOT_EXIST);
+        }
+        Blog b = new Blog();
+        BeanUtils.copyProperties(blog,b);
+        String content = b.getContent();
+        // markdown转为html
+        b.setContent(MarkdownUtils.markdownToHtmlExtensions(content));
+
+        // 浏览次数加1
+        blogRepository.updateViews(id);
+        return b;
     }
 }
