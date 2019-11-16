@@ -86,4 +86,16 @@ public class Blog extends BaseEntity{
 
     @OneToMany(mappedBy = "blog")
     private List<Comment> comments = new ArrayList<>();
+
+    /**
+     * 不会保存到数据库
+     */
+    @Transient
+    private String tagIds;
+
+    /**
+     * 博客描述
+     */
+    private String description;
+
 }

@@ -5,7 +5,6 @@ import com.predicated.blog.exception.CustomException;
 import com.predicated.blog.exception.CustomExceptionEnum;
 import com.predicated.blog.repository.TagRepository;
 import com.predicated.blog.service.TagService;
-import com.predicated.blog.service.TypeService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,6 +12,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -23,28 +25,55 @@ import java.util.Optional;
 public class TagServiceImpl implements TagService {
 
     @Autowired
-    private TagRepository TagRepository;
+    private TagRepository tagRepository;
 
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Tag saveTag(Tag Tag) {
-        Optional<Tag> optional = TagRepository.findByName(Tag.getName());
+        Optional<Tag> optional = tagRepository.findByName(Tag.getName());
         if (optional.isPresent()) {
             return null;
         }
-        return TagRepository.save(Tag);
+        return tagRepository.save(Tag);
     }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Tag getTag(Long id) {
-        return TagRepository.getOne(id);
+        return tagRepository.getOne(id);
     }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Page<Tag> listTag(Pageable pageable) {
-        return TagRepository.findAll(pageable);
+        return tagRepository.findAll(pageable);
+    }
+
+    @Override
+    public List<Tag> listTag() {
+        return tagRepository.findAll();
+    }
+
+    /**
+     * 根据tag id 查找 Tag
+     * @param ids
+     * @return
+     */
+    @Override
+    public List<Tag> listTag(String ids) {
+        return tagRepository.findAllById(convertToList(ids));
+    }
+
+    private List<Long> convertToList(String ids) {
+        List<Long> list = new ArrayList<>();
+        if ("".equals(ids) && ids == null) {
+            String[] split = ids.split(",");
+            for (int i = 0; i < split.length; i++) {
+                list.add(new Long(split[i]));
+            }
+        }
+
+        return list;
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -56,12 +85,14 @@ public class TagServiceImpl implements TagService {
         }
 
         BeanUtils.copyProperties(Tag, result);
-        return TagRepository.save(result);
+        return tagRepository.save(result);
     }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteTag(Long id) {
-        TagRepository.deleteById(id);
+        tagRepository.deleteById(id);
     }
+
+
 }
