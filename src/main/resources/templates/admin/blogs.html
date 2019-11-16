@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:replace="admin/_fragments :: head(~{::title})">
     <meta charset="UTF-8">
     <!--配置移动端显示-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,11 +10,11 @@
 </head>
 <body>
     <!--导航-->
-    <nav class="ui inverted attached segment m-padded-tb-mini m-shadow-small">
+    <nav th:replace="admin/_fragments :: menu(1)" class="ui inverted attached segment m-padded-tb-mini m-shadow-small">
         <div class="ui container">
             <div class="ui inverted secondary stackable menu">
                 <h2 class="ui tel header item">管理后台</h2>
-                <a href="#" class="active m-item item m-mobile-hide"><i class="home icon"></i>博客</a>
+                <a href="#" class="m-item item m-mobile-hide"><i class="home icon"></i>博客</a>
                 <a href="#" class="m-item item m-mobile-hide"><i class="idea icon"></i>分类</a>
                 <a href="#" class="m-item item m-mobile-hide"><i class="tags icon"></i>标签</a>
                 <div class="right m-item m-mobile-hide menu">
@@ -189,8 +189,10 @@
             <p class="m-text-thin m-text-spaced m-opacity-mini">Copyright © 2019-2020 KillKey Designed by KillKey</p>
         </div>
     </footer>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    <!--/*/<th:block th:replace="admin/_fragments :: script">/*/-->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+    <!--/*/</th:block>/*/-->
 <script type="text/javascript" >
     $('.menu.toggle').click(function () {
         $('.m-item').toggleClass('m-mobile-hide');

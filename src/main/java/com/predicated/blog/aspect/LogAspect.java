@@ -2,7 +2,7 @@ package com.predicated.blog.aspect;
 
 import com.predicated.blog.entity.Log;
 import com.predicated.blog.service.LogService;
-import com.predicated.blog.utils.WebUtil;
+import com.predicated.blog.util.WebUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;

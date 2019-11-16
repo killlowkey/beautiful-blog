@@ -1,4 +1,4 @@
-package com.predicated.blog.utils;
+package com.predicated.blog.util;
 
 
 import org.springframework.web.context.request.RequestContextHolder;

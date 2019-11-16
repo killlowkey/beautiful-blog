@@ -50,15 +50,5 @@ public class IndexController {
     public String archives() {
         return "archives";
     }
-
-    @GetMapping("/admin/blogs")
-    public String blogs() {
-        return "/admin/blogs";
-    }
-
-    @GetMapping("/admin/blogs-input")
-    public String input() {
-        return "/admin/blogs-input";
-    }
 }
 
