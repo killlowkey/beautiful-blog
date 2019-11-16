@@ -29,20 +29,16 @@ public class CustomExceptionHandler {
     public ModelAndView exceptionHandler(HttpServletRequest request, Exception e) {
         log.error("Request URL:{} Exception: {}", request.getRequestURL(), e);
 
+        ModelAndView mv = new ModelAndView();
 
         // 处理自定义的 CustomException
         if (e instanceof CustomException) {
-            // TODO
-        }
 
-        /**
-         * {@code url}          访问报错的url
-         * {@code message}      报错信息
-         */
-        ModelAndView mv = new ModelAndView();
-        mv.addObject("url", request.getRequestURL());
-        mv.addObject("exception", e);
-        mv.setViewName("error/error");
+        } else {
+            mv.addObject("url", request.getRequestURL());
+            mv.addObject("exception", e);
+            mv.setViewName("error/error");
+        }
 
         return mv;
     }

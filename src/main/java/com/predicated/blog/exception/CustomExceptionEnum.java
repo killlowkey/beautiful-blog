@@ -16,7 +16,8 @@ public enum CustomExceptionEnum {
     /**
      *
      */
-    NOT_FOUND(404, "未找到");
+    NOT_FOUND_ENTITY(100, "实体未找到"),
+    ENTITY_EXIST(101, "实体类存在");
 
     private Integer code;
     private String message;

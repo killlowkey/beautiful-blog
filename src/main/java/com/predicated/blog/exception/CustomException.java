@@ -21,4 +21,8 @@ public class CustomException extends RuntimeException{
     public CustomException(String message, Throwable throwable) {
         super(message, throwable);
     }
+
+    public CustomException(CustomExceptionEnum exceptionEnum) {
+        super(exceptionEnum.getMessage());
+    }
 }
